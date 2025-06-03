@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Base Book Schema
-export const BookSchema = z.object({
+export const BookValidationSchema = z.object({
   id: z.string().uuid(),
   titulo: z.string().min(1, { message: 'Título não pode ser vazio' }),
   autor: z.string().min(1, { message: 'Autor não pode ser vazio' }),
@@ -10,10 +10,10 @@ export const BookSchema = z.object({
   }),
 });
 
-export type Book = z.infer<typeof BookSchema>;
+export type BookDto = z.infer<typeof BookValidationSchema>;
 
 // DTO for creating a new book
-export const CreateBookDtoSchema = BookSchema.pick({
+export const CreateBookDtoSchema = BookValidationSchema.pick({
   titulo: true,
   autor: true,
 });
@@ -21,7 +21,7 @@ export const CreateBookDtoSchema = BookSchema.pick({
 export type CreateBookDto = z.infer<typeof CreateBookDtoSchema>;
 
 // DTO for updating book information (all fields optional)
-export const UpdateBookDtoSchema = BookSchema.pick({
+export const UpdateBookDtoSchema = BookValidationSchema.pick({
   titulo: true,
   autor: true,
   status: true,
@@ -30,7 +30,7 @@ export const UpdateBookDtoSchema = BookSchema.pick({
 export type UpdateBookDto = z.infer<typeof UpdateBookDtoSchema>;
 
 // DTO for specifically updating book status
-export const UpdateBookStatusDtoSchema = BookSchema.pick({
+export const UpdateBookStatusDtoSchema = BookValidationSchema.pick({
   status: true,
 });
 
