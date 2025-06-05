@@ -1,0 +1,20 @@
+{
+  "name": "micro-service",
+  "version": "1.0.0",
+  "description": "Microservice architecture with Book Service, Reservation Service and Frontend",
+  "private": true,
+  "scripts": {
+    "install:all": "cd apps/book-service && npm install && cd ../reservation-service && npm install && cd ../frontend && npm install",
+    "dev:book": "cd apps/book-service && npm run start:dev",
+    "dev:reservation": "cd apps/reservation-service && npm run start:dev",
+    "dev:frontend": "cd apps/frontend && npm run dev",
+    "build:all": "cd apps/book-service && npm run build && cd ../reservation-service && npm run build && cd ../frontend && npm run build",
+    "start:book": "cd apps/book-service && npm start",
+    "start:reservation": "cd apps/reservation-service && npm start",
+    "start:frontend": "cd apps/frontend && npm start",
+    "test:all": "cd apps/book-service && npm test && cd ../reservation-service && npm test"
+  },
+  "keywords": ["microservices", "nestjs", "nextjs", "mongodb"],
+  "author": "",
+  "license": "ISC"
+}
