@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: book_service_db
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - microservice-network
+
+  # Book Service
+  book-service:
+    build:
+      context: ./apps/book-service
+      dockerfile: Dockerfile
+    container_name: book-service
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - MONGODB_URI=mongodb://mongodb:27017/book_service_db
+    depends_on:
+      - mongodb
+    networks:
+      - microservice-network
+    volumes:
+      - ./apps/book-service:/app
+      - /app/node_modules
+
+  # Reservation Service
+  reservation-service:
+    build:
+      context: ./apps/reservation-service
+      dockerfile: Dockerfile
+    container_name: reservation-service
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - MONGODB_URI=mongodb://mongodb:27017/reservation_service_db
+    depends_on:
+      - mongodb
+    networks:
+      - microservice-network    volumes:
+      - ./apps/reservation-service:/app
+      - /app/node_modules
+
+  # Frontend
+  frontend:
+    build:
+      context: ./apps/frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_BOOK_SERVICE_URL=http://localhost:3001/books
+      - NEXT_PUBLIC_RESERVATION_SERVICE_URL=http://localhost:3002/reservations
+    depends_on:
+      - book-service
+      - reservation-service
+    networks:
+      - microservice-network
+    volumes:
+      - ./apps/frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
