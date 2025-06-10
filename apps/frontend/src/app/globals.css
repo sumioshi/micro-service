@@ -180,3 +180,37 @@ textarea:focus-visible {
   outline-offset: 2px !important;
   border-radius: 6px;
 }
+
+/* Enhanced accessibility utilities */
+.text-readable {
+  color: #1f2937 !important; /* gray-800 */
+  font-weight: 600;
+}
+
+.text-readable-light {
+  color: #374151 !important; /* gray-700 */
+  font-weight: 500;
+}
+
+.bg-high-contrast {
+  background-color: #ffffff;
+  border: 2px solid #d1d5db; /* gray-300 */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Ensure all text has minimum contrast */
+p, span, div, h1, h2, h3, h4, h5, h6 {
+  text-rendering: optimizeLegibility;
+}
+
+/* Improve button contrast */
+button[disabled] {
+  opacity: 0.6 !important;
+}
+
+/* Link accessibility */
+a:focus {
+  outline: 3px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
