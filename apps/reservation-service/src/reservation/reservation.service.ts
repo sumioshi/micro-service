@@ -27,11 +27,10 @@ export class ReservationService {
     @InjectModel(ReservationSchemaClass.name) private reservationModel: Model<ReservationDocument>,
     private readonly httpService: HttpService,
   ) {}
-
   private toDto(reservationDoc: ReservationDocument | null): ReservationDto | null {
     if (!reservationDoc) return null;
     const { id, userId, bookId, dataReserva, status } = reservationDoc;
-    return { id, userId, bookId, dataReserva, status };
+    return { id, userId, bookId, dataReserva, status: status as 'ativa' | 'cancelada' | 'concluída' | 'expirada' };
   }
 
   async create(createReservationDto: CreateReservationDto): Promise<ReservationDto> {
@@ -92,7 +91,6 @@ export class ReservationService {
 
     return this.toDto(savedDoc)!;
   }
-
   async findAllByUserId(userId: string): Promise<ReservationDto[]> {
     console.log(`[ReservationService] Finding reservations for userId: ${userId} from DB.`);
     // Example: find only 'ativa' reservations
@@ -101,7 +99,7 @@ export class ReservationService {
     if (!reservations.length) {
         console.log(`[ReservationService] No reservations found for userId: ${userId} in DB.`);
     }
-    return reservations.map(doc => this.toDto(doc)!);
+    return reservations.map((doc: ReservationDocument) => this.toDto(doc)!);
   }
 
   async findOne(id: string): Promise<ReservationDto | null> {
@@ -112,7 +110,6 @@ export class ReservationService {
     }
     return this.toDto(reservationDoc);
   }
-
   async remove(id: string): Promise<void> {
     console.log(`[ReservationService] Removing reservation with custom ID: ${id} from DB.`);
     const reservationToCancel = await this.reservationModel.findOneAndDelete({ id: id }).exec();
@@ -124,6 +121,22 @@ export class ReservationService {
 
     if (reservationToCancel.status === 'ativa') {
         await this.updateBookStatus(reservationToCancel.bookId, 'disponível'); // Mock call
+    }
+  }
+
+  private async updateBookStatus(bookId: string, status: string): Promise<void> {
+    try {
+      this.logger.log(`Updating book status to '${status}' for bookId: ${bookId}`);
+      await firstValueFrom(
+        this.httpService.patch(`${this.bookServiceUrl}/${bookId}/status`, { status }),
+      );
+      this.logger.log(`Book status updated successfully for ${bookId}`);
+    } catch (error) {
+      this.logger.error(
+        `Failed to update book ${bookId} status to '${status}'. Error: ${error.message}`,
+        error.stack
+      );
+      // For now, we just log the error. In production, you might want to add retry logic or compensation
     }
   }
 }

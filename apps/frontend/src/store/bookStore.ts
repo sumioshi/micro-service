@@ -14,7 +14,7 @@ interface BookState {
   setBookStatus: (bookId: string, status: Book['status']) => void; // New action
 }
 
-export const useBookStore = create<BookState>((set, get) => ({
+export const useBookStore = create<BookState>((set) => ({
   books: [],
   selectedBook: null,
   isLoading: false,

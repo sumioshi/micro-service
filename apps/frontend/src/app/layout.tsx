@@ -15,8 +15,8 @@ import Navbar from "@/components/Navbar"; // Adjust path if necessary
 // });
 
 export const metadata: Metadata = {
-  title: "BookHub - Your Online Library", // Updated title
-  description: "Manage and reserve your favorite books.", // Updated description
+  title: "BookHub - Sua Biblioteca Online",
+  description: "Gerencie e reserve seus livros favoritos.",
 };
 
 export default function RootLayout({
@@ -25,15 +25,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      {/* <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-100 text-gray-900`}> */}
-      <body className="antialiased bg-gray-50 text-gray-900"> {/* Simplified body classes */}
+    <html lang="pt-BR">
+      <body className="antialiased bg-gradient-to-br from-blue-50 via-white to-purple-50 text-gray-900 min-h-screen">
         <Navbar />
-        <main className="container mx-auto p-4 mt-4">
+        <main className="container mx-auto px-4 py-6 max-w-7xl">
           {children}
         </main>
-        <footer className="text-center p-4 mt-8 text-sm text-gray-600 border-t">
-          © {new Date().getFullYear()} BookHub. All rights reserved.
+        <footer className="bg-white border-t border-gray-200 mt-16">
+          <div className="container mx-auto px-4 py-8 text-center">
+            <div className="text-gray-600 mb-2">
+              © {new Date().getFullYear()} BookHub. Todos os direitos reservados.
+            </div>
+            <div className="text-sm text-gray-500">
+              Sua biblioteca digital de confiança
+            </div>
+          </div>
         </footer>
       </body>
     </html>

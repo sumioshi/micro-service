@@ -21,10 +21,9 @@ export class ReservationController {
     // Zod validation pipe will be added later
     return this.reservationService.create(createReservationDto);
   }
-
   @Get('/user/:userId')
   findByUser(@Param('userId') userId: string) {
-    return this.reservationService.findByUser(userId);
+    return this.reservationService.findAllByUserId(userId);
   }
 
   // Get a specific reservation by its ID (useful for fetching details or for cancellation)
