@@ -1,5 +1,14 @@
 # 🚀 Microservices Project
 
+```
+Arthur Vinícius de Oliveira Semensati -231051492
+Daniel Barrionuevo Gomes - 220144962
+Natanael Figueredo Balbo - 220141852
+Rodrigo Shodi Sumioshi - 220141912
+Vinicius Luiz Santa Rosa - 240421212
+Pablo Vinicius Formagio Lima - 19933212
+```
+
 Sistema de microserviços com gerenciamento de livros e reservas.
 
 ## 📁 Estrutura do Projeto
@@ -113,5 +122,3 @@ O projeto usa MongoDB. Certifique-se de ter o MongoDB rodando localmente na port
 Para desenvolvimento, recomenda-se usar 3 terminais separados para ver os logs de cada serviço individualmente, ou usar o script `start-all.bat` que abre automaticamente 3 janelas de terminal.
 
 ---
-
-🎉 **Projeto configurado e pronto para uso!**
